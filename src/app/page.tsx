@@ -1,6 +1,22 @@
 import Link from "next/link";
 
+import { FractureStackSwitch } from "@/components/ui/fracture-stack-switch";
+import { PhaseWeaveToggle } from "@/components/ui/phase-weave-toggle";
+import { SignalButton } from "@/components/ui/signal-button";
+import { StarfallSwitch } from "@/components/ui/starfall-switch";
 import { componentRegistry } from "@/data/components";
+
+const catalogPhaseOptions = [
+  { value: "dock", label: "Dock", pulse: "anchor" },
+  { value: "scan", label: "Scan", pulse: "inspect" },
+  { value: "route", label: "Route", pulse: "vector" },
+];
+
+const catalogFractureItems = [
+  { value: "spark", label: "Spark", meta: "init" },
+  { value: "mesh", label: "Mesh", meta: "link" },
+  { value: "forge", label: "Forge", meta: "solid" },
+];
 
 const stackItems = [
   "Next.js",
@@ -25,7 +41,7 @@ const blockFeatures = [
   {
     title: "Registry-first scaling",
     description:
-      "Add one new registry item and the homepage, sidebar, and docs routes update automatically.",
+      "Add one new registry item and the homepage, catalog, and docs routes update automatically.",
   },
 ];
 
@@ -56,6 +72,57 @@ const solidButtonClassName =
 const ghostButtonClassName =
   "inline-flex h-10 items-center justify-center border border-border bg-card px-4 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
+function ComponentCatalogPreview({ slug }: { slug: string }) {
+  if (slug === "signal-button") {
+    return (
+      <SignalButton size="lg" aria-label="Signal Button catalog preview">
+        Deploy
+      </SignalButton>
+    );
+  }
+
+  if (slug === "phase-weave-toggle") {
+    return (
+      <div className="w-full max-w-lg">
+        <PhaseWeaveToggle
+          options={catalogPhaseOptions}
+          defaultValue="scan"
+          aria-label="Phase Weave Toggle catalog preview"
+        />
+      </div>
+    );
+  }
+
+  if (slug === "fracture-stack-switch") {
+    return (
+      <div className="w-full max-w-sm">
+        <FractureStackSwitch
+          items={catalogFractureItems}
+          defaultValue="mesh"
+          size="sm"
+          aria-label="Fracture Stack Switch catalog preview"
+        />
+      </div>
+    );
+  }
+
+  if (slug === "starfall-switch") {
+    return (
+      <StarfallSwitch
+        size="lg"
+        defaultChecked
+        aria-label="Starfall Switch catalog preview"
+      />
+    );
+  }
+
+  return (
+    <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+      {slug}
+    </span>
+  );
+}
+
 export default function Home() {
   const firstComponent = componentRegistry[0];
   const readyCount = componentRegistry.filter(
@@ -67,8 +134,7 @@ export default function Home() {
   return (
     <div className="space-y-10 pb-16 pt-2 sm:pt-4">
       <section className="studio-card px-6 py-7 sm:px-8 sm:py-10">
-        <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="space-y-6">
+        <div className="max-w-4xl space-y-6">
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
               Mono Studio / UI Registry
             </p>
@@ -111,52 +177,6 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="studio-card space-y-4 p-5">
-            <div className="flex items-center justify-between gap-3">
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                Registry Pulse
-              </p>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                {componentCountLabel} Total
-              </p>
-            </div>
-
-            {componentRegistry.length > 0 ? (
-              <ul className="space-y-2">
-                {componentRegistry.slice(0, 5).map((component) => (
-                  <li
-                    key={component.slug}
-                    className="flex items-center justify-between gap-3 border border-border bg-card px-3 py-2"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-foreground">
-                        {component.name}
-                      </p>
-                      <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground">
-                        /components/{component.slug}
-                      </p>
-                    </div>
-                    <span
-                      className="border border-border bg-muted px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
-                    >
-                      {component.status}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="border border-dashed border-border p-4 text-sm text-muted-foreground">
-                Add your first registry item and it will appear here.
-              </p>
-            )}
-
-            <p className="text-sm leading-6 text-muted-foreground">
-              This panel is data-driven from your registry, so new components are
-              listed here without additional homepage edits.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -232,8 +252,8 @@ export default function Home() {
             Same homepage pattern for every new component.
           </h2>
           <p className="max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">
-            Every card below is generated from the same registry used by your
-            sidebar and component routes.
+            Every card below renders the real component from the same registry
+            used by the component routes.
           </p>
         </header>
 
@@ -244,12 +264,8 @@ export default function Home() {
               className="studio-card group relative overflow-hidden p-5 transition-colors hover:bg-muted/50"
             >
               <div className="mb-4 overflow-hidden border border-border bg-muted p-4">
-                <div className="relative flex h-24 items-center justify-center">
-                  <div className="absolute inset-x-3 h-px bg-border" />
-                  <div className="signal-track-scan absolute left-0 top-1/2 h-px w-28 -translate-y-1/2 bg-foreground/75" />
-                  <p className="relative z-10 border border-border bg-card px-3 py-1 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                    {component.slug}
-                  </p>
+                <div className="relative flex min-h-56 items-center justify-center p-4">
+                  <ComponentCatalogPreview slug={component.slug} />
                 </div>
               </div>
 

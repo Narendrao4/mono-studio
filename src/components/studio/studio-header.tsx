@@ -87,6 +87,17 @@ function GithubIcon() {
   );
 }
 
+function XIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+      <path
+        d="M18.244 2.25H21.552L14.325 10.51L22.827 21.75H16.17L10.956 14.933L4.99 21.75H1.68L9.41 12.915L1.254 2.25H8.08L12.793 8.481L18.244 2.25ZM17.083 19.77H18.916L7.084 4.126H5.117L17.083 19.77Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
 export function StudioHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -136,6 +147,16 @@ export function StudioHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
+          <button
+            type="button"
+            className={`${iconControlClassName} lg:hidden`}
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open navigation menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation-drawer"
+          >
+            <MenuIcon />
+          </button>
           <Link
             href="/search"
             className={`${iconControlClassName} hidden sm:inline-flex`}
@@ -156,16 +177,13 @@ export function StudioHeader() {
           >
             <GithubIcon />
           </a>
-          <button
-            type="button"
-            className={`${iconControlClassName} lg:hidden`}
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-navigation-drawer"
+          <span
+            className={`${plainIconControlClassName} hidden min-[880px]:inline-flex`}
+            role="img"
+            aria-label="X link coming soon"
           >
-            <MenuIcon />
-          </button>
+            <XIcon />
+          </span>
         </div>
 
         </div>

@@ -47,24 +47,11 @@ function ComponentLinks() {
 
 export function StudioSidebar() {
   return (
-    <>
-      <section className="studio-card mb-6 p-4 md:hidden">
-        <details>
-          <summary className="cursor-pointer text-sm font-medium text-foreground marker:text-muted-foreground">
-            Browse components
-          </summary>
-          <div className="mt-3">
-            <ComponentLinks />
-          </div>
-        </details>
-      </section>
-
-      <aside className="studio-card sticky top-[calc(var(--studio-header-height)+1rem)] hidden h-fit w-[240px] shrink-0 p-4 md:block">
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
-          Components
-        </h2>
-        <ComponentLinks />
-      </aside>
-    </>
+    <aside className="studio-card sticky top-[calc(var(--studio-header-height)+1rem)] hidden h-fit w-[240px] shrink-0 p-4 xl:block">
+      <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
+        Components
+      </h2>
+      <ComponentLinks />
+    </aside>
   );
 }
