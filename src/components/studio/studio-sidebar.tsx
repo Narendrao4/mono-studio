@@ -20,10 +20,10 @@ function ComponentLinks() {
             <Link
               href={href}
               className={cn(
-                "group flex items-center justify-between border border-transparent px-3 py-2 text-sm transition-colors",
+                "group flex items-center justify-between border px-3 py-2 text-sm transition-colors",
                 active
-                  ? "border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950"
-                  : "text-neutral-700 hover:border-neutral-200 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:border-neutral-800 dark:hover:bg-neutral-900",
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-transparent text-foreground hover:border-border hover:bg-muted",
               )}
             >
               <span>{component.name}</span>
@@ -31,8 +31,8 @@ function ComponentLinks() {
                 className={cn(
                   "text-[10px] uppercase tracking-[0.12em]",
                   active
-                    ? "text-white/80 dark:text-neutral-700"
-                    : "text-neutral-500 dark:text-neutral-500",
+                    ? "text-background/70"
+                    : "text-muted-foreground",
                 )}
               >
                 {component.status}
@@ -48,9 +48,9 @@ function ComponentLinks() {
 export function StudioSidebar() {
   return (
     <>
-      <section className="mb-6 border border-neutral-200 p-4 md:hidden dark:border-neutral-800">
+      <section className="studio-card mb-6 p-4 md:hidden">
         <details>
-          <summary className="cursor-pointer text-sm font-medium text-neutral-800 marker:text-neutral-400 dark:text-neutral-200">
+          <summary className="cursor-pointer text-sm font-medium text-foreground marker:text-muted-foreground">
             Browse components
           </summary>
           <div className="mt-3">
@@ -59,8 +59,8 @@ export function StudioSidebar() {
         </details>
       </section>
 
-      <aside className="sticky top-24 hidden h-fit w-64 shrink-0 border border-neutral-200 p-4 md:block dark:border-neutral-800">
-        <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-neutral-500 dark:text-neutral-400">
+      <aside className="studio-card sticky top-[calc(var(--studio-header-height)+1rem)] hidden h-fit w-[240px] shrink-0 p-4 md:block">
+        <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">
           Components
         </h2>
         <ComponentLinks />

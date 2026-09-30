@@ -7,15 +7,15 @@ type CodeViewerProps = {
 
 export function CodeViewer({ code, fileName }: CodeViewerProps) {
   return (
-    <div className="overflow-hidden border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="flex items-center justify-between border-b border-neutral-200 px-3 py-2 dark:border-neutral-800">
-        <span className="font-mono text-xs text-neutral-500 dark:text-neutral-400">
+    <div className="studio-card overflow-hidden">
+      <div className="flex items-center justify-between border-b border-border px-3 py-2">
+        <span className="font-mono text-xs text-muted-foreground">
           {fileName}
         </span>
         <CopyButton value={code} />
       </div>
-      <div className="overflow-x-auto bg-neutral-50 dark:bg-neutral-950/30">
-        <pre className="min-w-full px-4 py-4 font-mono text-sm leading-6 text-neutral-900 dark:text-neutral-100">
+      <div className="overflow-x-auto bg-card">
+        <pre className="min-w-full px-4 py-4 font-mono text-sm leading-6 text-foreground">
           <code>{code}</code>
         </pre>
       </div>

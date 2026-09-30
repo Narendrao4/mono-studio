@@ -1,42 +1,46 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --mono-bg: #f3f6fa;
-  --mono-fg: #101520;
-  --mono-muted: #4d5b70;
-  --mono-border: #d4dce8;
-  --mono-soft: #e8edf5;
-  --mono-panel: #ffffff;
-  --mono-shadow-rgb: 16 28 46;
-  --mono-glow-rgb: 74 104 153;
-  --mono-grid-rgb: 80 102 138;
-  --mono-selection-bg: #111827;
-  --mono-selection-fg: #f8fafc;
+  --mono-bg: #ffffff;
+  --mono-fg: #0f0f0f;
+  --mono-muted: #f5f5f5;
+  --mono-muted-fg: #5c5c5c;
+  --mono-border: #e5e5e5;
+  --mono-card: #ffffff;
+  --mono-card-fg: #111111;
+  --mono-selection-bg: #111111;
+  --mono-selection-fg: #fafafa;
+  --studio-header-height: 68px;
 }
 
 @theme inline {
   --color-background: var(--mono-bg);
   --color-foreground: var(--mono-fg);
+  --color-muted: var(--mono-muted);
+  --color-muted-foreground: var(--mono-muted-fg);
+  --color-border: var(--mono-border);
+  --color-card: var(--mono-card);
+  --color-card-foreground: var(--mono-card-fg);
   --font-sans: var(--font-mono-sans);
   --font-mono: var(--font-mono-mono);
 }
 
 .dark {
-  --mono-bg: #06080d;
-  --mono-fg: #edf2fc;
-  --mono-muted: #9ca8be;
-  --mono-border: #202838;
-  --mono-soft: #0d1420;
-  --mono-panel: #0a111b;
-  --mono-shadow-rgb: 0 0 0;
-  --mono-glow-rgb: 118 153 202;
-  --mono-grid-rgb: 76 93 122;
-  --mono-selection-bg: #f8fafc;
-  --mono-selection-fg: #111827;
+  --mono-bg: #0a0a0a;
+  --mono-fg: #f5f5f5;
+  --mono-muted: #171717;
+  --mono-muted-fg: #a3a3a3;
+  --mono-border: #262626;
+  --mono-card: #0d0d0d;
+  --mono-card-fg: #f5f5f5;
+  --mono-selection-bg: #fafafa;
+  --mono-selection-fg: #111111;
 }
 
 * {
-  border-color: var(--mono-border);
+  border-color: var(--color-border);
 }
 
 html,
@@ -45,19 +49,8 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(
-      circle at 14% -5%,
-      rgba(var(--mono-glow-rgb), 0.24),
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 92% 0%,
-      rgba(var(--mono-glow-rgb), 0.14),
-      transparent 42%
-    ),
-    var(--mono-bg);
-  color: var(--mono-fg);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-mono-sans), "Segoe UI", "Helvetica Neue", sans-serif;
   letter-spacing: 0.002em;
 }
@@ -67,19 +60,39 @@ pre {
   font-family: var(--font-mono-mono), "Courier New", monospace;
 }
 
-.mono-surface {
-  border: 1px solid var(--mono-border);
-  background: var(--mono-panel);
-  box-shadow: 0 18px 42px -28px rgba(var(--mono-shadow-rgb), 0.45);
+.studio-container {
+  width: 100%;
+  max-width: 1460px;
+  margin-inline: auto;
+  padding-inline: 16px;
 }
 
-.mono-grid-surface {
-  border: 1px solid var(--mono-border);
-  background-color: var(--mono-panel);
-  background-image:
-    linear-gradient(to right, rgba(var(--mono-grid-rgb), 0.16) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(var(--mono-grid-rgb), 0.16) 1px, transparent 1px);
-  background-size: 24px 24px;
+.studio-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+}
+
+.studio-heading {
+  color: var(--color-foreground);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.studio-muted {
+  color: var(--color-muted-foreground);
+}
+
+@media (min-width: 640px) {
+  .studio-container {
+    padding-inline: 24px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .studio-container {
+    padding-inline: 30px;
+  }
 }
 
 ::selection {
@@ -121,11 +134,35 @@ pre {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .mono-fade-up {
-    animation: mono-fade-up 0.6s ease-out both;
+@keyframes starfall-drop {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--starfall-drift, 0px), var(--starfall-depth, 52px), 0)
+      scale(0.2);
+  }
+}
 
+@keyframes starfall-inhale {
+  0% {
+    opacity: 0.92;
+    transform: translate3d(var(--starfall-drift, 0px), var(--starfall-depth, 52px), 0)
+      scale(0.85);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--starfall-return-x, 0px), var(--starfall-return-y, -30px), 0)
+      scale(0.2);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
   .signal-track-scan {
     animation: signal-track-scan 1.1s linear infinite;
   }

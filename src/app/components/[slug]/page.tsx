@@ -3,9 +3,21 @@ import { notFound } from "next/navigation";
 
 import { ComponentDocPage } from "@/components/studio/component-doc-page";
 import {
+  FractureStackInteractivePreview,
+  FractureStackVariants,
+} from "@/components/studio/fracture-stack-switch-showcase";
+import {
+  PhaseWeaveInteractivePreview,
+  PhaseWeaveVariants,
+} from "@/components/studio/phase-weave-toggle-showcase";
+import {
   SignalButtonInteractivePreview,
   SignalButtonVariants,
 } from "@/components/studio/signal-button-showcase";
+import {
+  StarfallSwitchInteractivePreview,
+  StarfallSwitchVariants,
+} from "@/components/studio/starfall-switch-showcase";
 import { componentRegistry, getComponentDoc } from "@/data/components";
 
 export function generateStaticParams() {
@@ -35,6 +47,27 @@ function resolveComponentShowcase(slug: string) {
     return {
       preview: <SignalButtonInteractivePreview />,
       variants: <SignalButtonVariants />,
+    };
+  }
+
+  if (slug === "phase-weave-toggle") {
+    return {
+      preview: <PhaseWeaveInteractivePreview />,
+      variants: <PhaseWeaveVariants />,
+    };
+  }
+
+  if (slug === "fracture-stack-switch") {
+    return {
+      preview: <FractureStackInteractivePreview />,
+      variants: <FractureStackVariants />,
+    };
+  }
+
+  if (slug === "starfall-switch") {
+    return {
+      preview: <StarfallSwitchInteractivePreview />,
+      variants: <StarfallSwitchVariants />,
     };
   }
 

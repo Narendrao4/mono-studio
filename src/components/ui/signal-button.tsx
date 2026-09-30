@@ -45,13 +45,14 @@ const sizeClasses: Record<
 };
 
 const statusButtonClasses: Record<SignalButtonStatus, string> = {
-  idle: "border-neutral-300 bg-white text-neutral-950 hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900",
+  idle:
+    "border-neutral-300 bg-white text-neutral-950 hover:bg-neutral-50 dark:border-neutral-700 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900",
   processing:
-    "border-neutral-900 bg-neutral-100 text-neutral-950 dark:border-neutral-200 dark:bg-neutral-900 dark:text-neutral-50",
+    "border-neutral-400 bg-white text-neutral-950 hover:bg-neutral-50 dark:border-neutral-600 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900",
   success:
-    "border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950",
+    "border-neutral-900 bg-white text-neutral-950 hover:bg-neutral-50 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950",
   error:
-    "border-neutral-900 bg-neutral-50 text-neutral-950 dark:border-neutral-300 dark:bg-neutral-900 dark:text-neutral-100",
+    "border-neutral-500 bg-white text-neutral-950 hover:bg-neutral-50 dark:border-neutral-500 dark:bg-neutral-950 dark:text-neutral-100 dark:hover:bg-neutral-900",
 };
 
 const statusCodes: Record<SignalButtonStatus, string> = {
@@ -86,6 +87,7 @@ function SignalIndicator({ status, size }: SignalIndicatorProps) {
       aria-hidden
       className={cn(
         "relative inline-flex items-center justify-center overflow-hidden rounded-[3px] border border-current/45",
+        status === "error" && "bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-950",
         sizeClasses[size].indicator,
       )}
     >
@@ -93,7 +95,7 @@ function SignalIndicator({ status, size }: SignalIndicatorProps) {
         className={cn(
           "absolute inset-y-0 left-0 w-1/3 bg-current/15 transition-transform duration-300 motion-reduce:transition-none",
           status === "idle" && "translate-x-0",
-          status === "processing" && "signal-track-scan",
+          status === "processing" && "signal-track-scan bg-neutral-950 dark:bg-neutral-100",
           status === "success" && "translate-x-[190%] bg-current/70",
           status === "error" && "translate-x-0 bg-transparent",
         )}
@@ -130,7 +132,8 @@ export function SignalButton({
       disabled={isDisabled}
       aria-busy={status === "processing"}
       className={cn(
-        "group inline-flex items-center justify-center border font-medium tracking-[0.01em] transition-[background-color,color,border-color,transform] duration-200 motion-reduce:transition-none",
+        "group inline-flex items-center justify-center rounded-sm border font-medium tracking-[0.01em] shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] transition-[background-color,color,border-color,transform] duration-200 motion-reduce:transition-none dark:shadow-none",
+        "hover:-translate-y-px",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-neutral-100 dark:focus-visible:ring-offset-neutral-950",
         "active:translate-y-px disabled:cursor-not-allowed disabled:opacity-45",
         sizeClasses[size].button,

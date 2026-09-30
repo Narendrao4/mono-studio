@@ -65,7 +65,7 @@ export function CopyButton({ value, className }: CopyButtonProps) {
       type="button"
       onClick={handleCopy}
       className={cn(
-        "inline-flex h-8 items-center justify-center border border-neutral-300 px-3 text-xs font-medium text-neutral-700 transition-colors duration-150 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:focus-visible:ring-neutral-100 dark:focus-visible:ring-offset-neutral-950",
+        "inline-flex h-8 items-center justify-center border border-border bg-card px-3 text-xs font-medium text-foreground transition-colors duration-150 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className,
       )}
       aria-live="polite"

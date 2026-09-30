@@ -50,8 +50,8 @@ export function SignalButtonInteractivePreview() {
               className={cn(
                 "h-8 border px-3 text-xs font-medium uppercase tracking-[0.08em] transition-colors",
                 selected
-                  ? "border-neutral-950 bg-neutral-950 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950"
-                  : "border-neutral-300 text-neutral-700 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900",
+                  ? "border-foreground bg-foreground text-background"
+                  : "border-border bg-card text-foreground hover:bg-muted",
               )}
             >
               {nextStatus}
@@ -60,7 +60,17 @@ export function SignalButtonInteractivePreview() {
         })}
       </div>
 
-      <div className="flex min-h-48 items-center justify-center border border-neutral-200 p-6 dark:border-neutral-800">
+      <div className="studio-card space-y-4 p-6">
+        <div className="flex items-center justify-between gap-3">
+          <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+            Live preview
+          </p>
+          <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+            {status}
+          </p>
+        </div>
+
+        <div className="flex min-h-40 items-center justify-center border border-border bg-muted p-6">
         <SignalButton
           size="lg"
           status={status}
@@ -69,9 +79,10 @@ export function SignalButtonInteractivePreview() {
         >
           Deploy
         </SignalButton>
+        </div>
       </div>
 
-      <p className="text-sm text-neutral-600 dark:text-neutral-300">
+      <p className="text-sm text-muted-foreground">
         {statusDescriptions[status]}
       </p>
     </div>
@@ -81,8 +92,8 @@ export function SignalButtonInteractivePreview() {
 export function SignalButtonVariants() {
   return (
     <div className="space-y-8">
-      <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-neutral-500 dark:text-neutral-400">
+      <section className="studio-card space-y-3 p-4">
+        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
           Sizes
         </h3>
         <div className="flex flex-wrap items-center gap-3">
@@ -94,8 +105,8 @@ export function SignalButtonVariants() {
         </div>
       </section>
 
-      <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-neutral-500 dark:text-neutral-400">
+      <section className="studio-card space-y-3 p-4">
+        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
           Status variants
         </h3>
         <div className="flex flex-wrap items-center gap-3">
@@ -116,8 +127,8 @@ export function SignalButtonVariants() {
         </div>
       </section>
 
-      <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-neutral-500 dark:text-neutral-400">
+      <section className="studio-card space-y-3 p-4">
+        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
           Disabled
         </h3>
         <div className="flex flex-wrap items-center gap-3">
@@ -128,8 +139,8 @@ export function SignalButtonVariants() {
         </div>
       </section>
 
-      <section className="space-y-3">
-        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-neutral-500 dark:text-neutral-400">
+      <section className="studio-card space-y-3 p-4">
+        <h3 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
           Text examples
         </h3>
         <div className="flex flex-wrap items-center gap-3">

@@ -22,9 +22,9 @@ export function ComponentPreview({ preview, code, fileName }: ComponentPreviewPr
   const [activeTab, setActiveTab] = useState<PreviewTab>("preview");
 
   return (
-    <section className="border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950">
-      <div className="border-b border-neutral-200 px-3 py-2 dark:border-neutral-800">
-        <div className="inline-flex border border-neutral-200 p-0.5 dark:border-neutral-800">
+    <section className="studio-card">
+      <div className="border-b border-border px-3 py-2">
+        <div className="inline-flex border border-border p-0.5">
           {tabs.map((tab) => {
             const selected = activeTab === tab.id;
 
@@ -36,8 +36,8 @@ export function ComponentPreview({ preview, code, fileName }: ComponentPreviewPr
                 className={cn(
                   "h-8 px-3 text-xs font-medium transition-colors",
                   selected
-                    ? "bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-950"
-                    : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-900 dark:hover:text-neutral-200",
+                    ? "bg-foreground text-background"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
                 )}
                 aria-pressed={selected}
               >
