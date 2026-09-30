@@ -1,11 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --mono-bg: #ffffff;
-  --mono-fg: #111111;
-  --mono-muted: #575757;
-  --mono-border: #e5e5e5;
-  --mono-soft: #f5f5f5;
+  --mono-bg: #f3f6fa;
+  --mono-fg: #101520;
+  --mono-muted: #4d5b70;
+  --mono-border: #d4dce8;
+  --mono-soft: #e8edf5;
+  --mono-panel: #ffffff;
+  --mono-shadow-rgb: 16 28 46;
+  --mono-glow-rgb: 74 104 153;
+  --mono-grid-rgb: 80 102 138;
+  --mono-selection-bg: #111827;
+  --mono-selection-fg: #f8fafc;
 }
 
 @theme inline {
@@ -16,11 +22,17 @@
 }
 
 .dark {
-  --mono-bg: #0a0a0a;
-  --mono-fg: #ededed;
-  --mono-muted: #a3a3a3;
-  --mono-border: #262626;
-  --mono-soft: #171717;
+  --mono-bg: #06080d;
+  --mono-fg: #edf2fc;
+  --mono-muted: #9ca8be;
+  --mono-border: #202838;
+  --mono-soft: #0d1420;
+  --mono-panel: #0a111b;
+  --mono-shadow-rgb: 0 0 0;
+  --mono-glow-rgb: 118 153 202;
+  --mono-grid-rgb: 76 93 122;
+  --mono-selection-bg: #f8fafc;
+  --mono-selection-fg: #111827;
 }
 
 * {
@@ -33,7 +45,18 @@ body {
 }
 
 body {
-  background: var(--mono-bg);
+  background:
+    radial-gradient(
+      circle at 14% -5%,
+      rgba(var(--mono-glow-rgb), 0.24),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 92% 0%,
+      rgba(var(--mono-glow-rgb), 0.14),
+      transparent 42%
+    ),
+    var(--mono-bg);
   color: var(--mono-fg);
   font-family: var(--font-mono-sans), "Segoe UI", "Helvetica Neue", sans-serif;
   letter-spacing: 0.002em;
@@ -44,14 +67,24 @@ pre {
   font-family: var(--font-mono-mono), "Courier New", monospace;
 }
 
-::selection {
-  background: #111111;
-  color: #f5f5f5;
+.mono-surface {
+  border: 1px solid var(--mono-border);
+  background: var(--mono-panel);
+  box-shadow: 0 18px 42px -28px rgba(var(--mono-shadow-rgb), 0.45);
 }
 
-.dark ::selection {
-  background: #f5f5f5;
-  color: #111111;
+.mono-grid-surface {
+  border: 1px solid var(--mono-border);
+  background-color: var(--mono-panel);
+  background-image:
+    linear-gradient(to right, rgba(var(--mono-grid-rgb), 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--mono-grid-rgb), 0.16) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+::selection {
+  background: var(--mono-selection-bg);
+  color: var(--mono-selection-fg);
 }
 
 @keyframes signal-track-scan {
@@ -77,7 +110,22 @@ pre {
   }
 }
 
+@keyframes mono-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  .mono-fade-up {
+    animation: mono-fade-up 0.6s ease-out both;
+  }
+
   .signal-track-scan {
     animation: signal-track-scan 1.1s linear infinite;
   }

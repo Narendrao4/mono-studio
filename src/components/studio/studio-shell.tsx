@@ -9,7 +9,7 @@ type StudioShellProps = {
 
 export function StudioShell({ children }: StudioShellProps) {
   return (
-    <div className="min-h-screen bg-white text-neutral-950 dark:bg-neutral-950 dark:text-neutral-100">
+    <div className="min-h-screen bg-transparent text-[var(--mono-fg)]">
       <StudioHeader />
       <div className="mx-auto flex w-full max-w-7xl gap-8 px-4 py-6 sm:px-6 lg:px-8">
         <StudioSidebar />

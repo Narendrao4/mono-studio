@@ -21,13 +21,8 @@ const themeBootstrapScript = `(() => {
   try {
     const storageKey = "mono-studio-theme";
     const storedTheme = localStorage.getItem(storageKey);
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const resolvedTheme =
-      storedTheme === "light" || storedTheme === "dark"
-        ? storedTheme
-        : systemPrefersDark
-          ? "dark"
-          : "light";
+      storedTheme === "light" || storedTheme === "dark" ? storedTheme : "light";
 
     document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
     document.documentElement.style.colorScheme = resolvedTheme;

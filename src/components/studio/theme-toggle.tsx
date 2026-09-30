@@ -1,8 +1,11 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+
 type Theme = "light" | "dark";
 
 const STORAGE_KEY = "mono-studio-theme";
+const THEME_EVENT = "mono-studio-theme-change";
 
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
@@ -10,24 +13,69 @@ function applyTheme(theme: Theme) {
   root.style.colorScheme = theme;
 }
 
-export function ThemeToggle() {
-  function toggleTheme() {
-    const nextTheme: Theme = document.documentElement.classList.contains("dark")
-      ? "light"
-      : "dark";
+function readCurrentTheme(): Theme {
+  if (typeof document === "undefined") {
+    return "light";
+  }
 
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+function subscribeToThemeChange(onThemeChange: () => void) {
+  if (typeof window === "undefined") {
+    return () => {};
+  }
+
+  window.addEventListener(THEME_EVENT, onThemeChange);
+
+  return () => {
+    window.removeEventListener(THEME_EVENT, onThemeChange);
+  };
+}
+
+export function ThemeToggle() {
+  const activeTheme = useSyncExternalStore(
+    subscribeToThemeChange,
+    readCurrentTheme,
+    () => "light",
+  );
+
+  function setTheme(nextTheme: Theme) {
     window.localStorage.setItem(STORAGE_KEY, nextTheme);
     applyTheme(nextTheme);
+    window.dispatchEvent(new Event(THEME_EVENT));
   }
 
   return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      className="inline-flex h-9 items-center justify-center border border-neutral-300 px-3 text-xs font-medium text-neutral-700 transition-colors duration-150 hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-900 dark:focus-visible:ring-neutral-100 dark:focus-visible:ring-offset-neutral-950"
-      aria-label="Toggle dark mode"
+    <div
+      className="inline-flex h-9 items-center border border-neutral-300 bg-white p-0.5 dark:border-neutral-700 dark:bg-neutral-950"
+      role="group"
+      aria-label="Theme switcher"
     >
-      Theme
-    </button>
+      <button
+        type="button"
+        onClick={() => setTheme("light")}
+        className={`h-7 px-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors focus-visible:outline-none ${
+          activeTheme === "light"
+            ? "bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-950"
+            : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-900"
+        }`}
+        aria-pressed={activeTheme === "light"}
+      >
+        White
+      </button>
+      <button
+        type="button"
+        onClick={() => setTheme("dark")}
+        className={`h-7 px-2.5 text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors focus-visible:outline-none ${
+          activeTheme === "dark"
+            ? "bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-950"
+            : "text-neutral-600 hover:bg-neutral-100 dark:text-neutral-400 dark:hover:bg-neutral-900"
+        }`}
+        aria-pressed={activeTheme === "dark"}
+      >
+        Black
+      </button>
+    </div>
   );
 }
