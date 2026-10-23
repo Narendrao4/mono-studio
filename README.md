@@ -10,7 +10,9 @@ The project is built to make component authoring and documentation repeatable:
 - Copy usage snippets quickly
 - Extend the studio with additional components over time
 
-Version one ships with one fully documented component: SignalButton.
+The studio includes five documented components. Recall Dock adds a reusable
+receipt trail for reversible actions: each item can be undone or dismissed
+independently, and the host app owns the action history.
 
 ## Design Direction
 
@@ -69,16 +71,17 @@ src/
 			component-preview.tsx
 			copy-button.tsx
 			props-table.tsx
-			signal-button-showcase.tsx
+			*-showcase.tsx
 			studio-header.tsx
 			studio-shell.tsx
 			studio-sidebar.tsx
 			theme-toggle.tsx
 		ui/
-			signal-button.tsx
+			*.tsx
 	data/
 		components.ts
-		signal-button-code.ts
+		*-code.ts
+		recall-dock-source.json
 	lib/
 		utils.ts
 ~~~
@@ -88,7 +91,7 @@ src/
 1. Create UI component in src/components/ui.
 2. Create an interactive demo + variants section in src/components/studio.
 3. Register metadata in src/data/components.ts.
-4. Add source/usage snippets in src/data/signal-button-code.ts style.
+4. Add source/usage snippets in src/data and register them in components.ts.
 5. Ensure route /components/[slug] resolves the new showcase.
 6. Run npm run lint and npm run build.
 

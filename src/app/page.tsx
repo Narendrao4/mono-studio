@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { FractureStackSwitch } from "@/components/ui/fracture-stack-switch";
 import { PhaseWeaveToggle } from "@/components/ui/phase-weave-toggle";
+import { RecallDockCatalogPreview } from "@/components/studio/recall-dock-showcase";
 import { SignalButton } from "@/components/ui/signal-button";
 import { StarfallSwitch } from "@/components/ui/starfall-switch";
 import { componentRegistry } from "@/data/components";
@@ -114,6 +115,10 @@ function ComponentCatalogPreview({ slug }: { slug: string }) {
         aria-label="Starfall Switch catalog preview"
       />
     );
+  }
+
+  if (slug === "recall-dock") {
+    return <RecallDockCatalogPreview />;
   }
 
   return (

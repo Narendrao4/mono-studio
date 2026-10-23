@@ -11,6 +11,10 @@ import {
   PhaseWeaveVariants,
 } from "@/components/studio/phase-weave-toggle-showcase";
 import {
+  RecallDockInteractivePreview,
+  RecallDockVariants,
+} from "@/components/studio/recall-dock-showcase";
+import {
   SignalButtonInteractivePreview,
   SignalButtonVariants,
 } from "@/components/studio/signal-button-showcase";
@@ -68,6 +72,13 @@ function resolveComponentShowcase(slug: string) {
     return {
       preview: <StarfallSwitchInteractivePreview />,
       variants: <StarfallSwitchVariants />,
+    };
+  }
+
+  if (slug === "recall-dock") {
+    return {
+      preview: <RecallDockInteractivePreview />,
+      variants: <RecallDockVariants />,
     };
   }
 

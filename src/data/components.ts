@@ -11,6 +11,7 @@ import {
   STARFALL_SWITCH_SOURCE,
   STARFALL_SWITCH_USAGE,
 } from "@/data/starfall-switch-code";
+import { RECALL_DOCK_SOURCE, RECALL_DOCK_USAGE } from "@/data/recall-dock-code";
 
 export type RegistryStatus = "ready" | "experimental";
 
@@ -62,6 +63,13 @@ export const componentRegistry: ComponentRegistryItem[] = [
     name: "Starfall Switch",
     description:
       "A toggle that releases stars downward on enable and inhales the fallen stars back on disable.",
+    status: "ready",
+  },
+  {
+    slug: "recall-dock",
+    name: "Recall Dock",
+    description:
+      "A compact action receipt trail that keeps individual changes visible and reversible across a page or app.",
     status: "ready",
   },
 ];
@@ -259,6 +267,44 @@ const componentDocs: Record<string, ComponentDoc> = {
         type: "string",
         defaultValue: "undefined",
         description: "Accessible name announced for the switch control.",
+      },
+    ],
+  },
+  "recall-dock": {
+    ...componentRegistry[4],
+    sourceFile: "recall-dock.tsx",
+    sourceCode: RECALL_DOCK_SOURCE,
+    usageCode: RECALL_DOCK_USAGE,
+    props: [
+      {
+        name: "items",
+        type: "RecallItem[]",
+        defaultValue: "required",
+        description: "Ordered action receipts. The newest item appears first in the dock.",
+      },
+      {
+        name: "onUndo",
+        type: "(id: string) => void",
+        defaultValue: "required",
+        description: "Reverse the matching action in your app and remove its receipt.",
+      },
+      {
+        name: "onDismiss",
+        type: "(id: string) => void",
+        defaultValue: "required",
+        description: "Remove a receipt without reversing the action.",
+      },
+      {
+        name: "className",
+        type: "string",
+        defaultValue: "undefined",
+        description: "Additional classes for placement or sizing.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        defaultValue: '"Recent actions"',
+        description: "Accessible name for the receipt region.",
       },
     ],
   },
