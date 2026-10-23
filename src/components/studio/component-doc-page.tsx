@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { CodeViewer } from "@/components/studio/code-viewer";
+import { ComponentGuideLinks } from "@/components/studio/component-guide-links";
 import { ComponentPreview } from "@/components/studio/component-preview";
 import { PropsTable } from "@/components/studio/props-table";
 import type { ComponentDoc } from "@/data/components";
@@ -57,6 +58,7 @@ export function ComponentDocPage({ doc, preview, variants }: ComponentDocPagePro
         </h2>
         <PropsTable propsList={doc.props} />
       </section>
+      <ComponentGuideLinks slug={doc.slug} name={doc.name} />
     </article>
   );
 }

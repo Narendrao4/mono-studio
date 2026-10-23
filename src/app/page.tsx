@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { ComponentGuideLinks } from "@/components/studio/component-guide-links";
 
 import { FractureStackSwitch } from "@/components/ui/fracture-stack-switch";
 import { PhaseWeaveToggle } from "@/components/ui/phase-weave-toggle";
 import { RecallDockCatalogPreview } from "@/components/studio/recall-dock-showcase";
+import { SnakeToastCatalogPreview } from "@/components/studio/snake-toast-showcase";
 import { SignalButton } from "@/components/ui/signal-button";
 import { StarfallSwitch } from "@/components/ui/starfall-switch";
 import { componentRegistry } from "@/data/components";
@@ -119,6 +121,10 @@ function ComponentCatalogPreview({ slug }: { slug: string }) {
 
   if (slug === "recall-dock") {
     return <RecallDockCatalogPreview />;
+  }
+
+  if (slug === "snake-toast") {
+    return <SnakeToastCatalogPreview />;
   }
 
   return (
@@ -292,12 +298,10 @@ export default function Home() {
 
                 <div className="flex flex-wrap items-center gap-2 pt-1">
                   <Link href={`/components/${component.slug}`} className={solidButtonClassName}>
-                    Open Docs
-                  </Link>
-                  <Link href="/components" className={ghostButtonClassName}>
-                    Browse Library
+                    Open Preview
                   </Link>
                 </div>
+                <ComponentGuideLinks slug={component.slug} name={component.name} compact />
               </div>
             </article>
           ))}

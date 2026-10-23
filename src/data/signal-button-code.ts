@@ -52,20 +52,37 @@ export function SignalButton({
 }
 `;
 
-export const SIGNAL_BUTTON_USAGE = `import { SignalButton } from "@/components/ui/signal-button";
+export const SIGNAL_BUTTON_USAGE = `"use client";
 
-export function DeployAction() {
+import { useState } from "react";
+import { SignalButton, type SignalButtonStatus } from "@/components/ui/signal-button";
+
+export function SaveAction() {
+  const [status, setStatus] = useState<SignalButtonStatus>("idle");
+
+  async function save() {
+    setStatus("processing");
+    try {
+      // Replace this demo delay with your actual save request.
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <SignalButton
-      status="processing"
+      status={status}
+      onClick={save}
       labels={{
-        idle: "Deploy",
-        processing: "Deploying",
-        success: "Deployed",
-        error: "Deploy failed",
+        idle: "Save",
+        processing: "Saving",
+        success: "Saved",
+        error: "Try again",
       }}
     >
-      Deploy
+      Save
     </SignalButton>
   );
 }

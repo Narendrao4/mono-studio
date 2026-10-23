@@ -19,10 +19,16 @@ import {
   SignalButtonVariants,
 } from "@/components/studio/signal-button-showcase";
 import {
+  SnakeToastInteractivePreview,
+  SnakeToastVariants,
+} from "@/components/studio/snake-toast-showcase";
+import {
   StarfallSwitchInteractivePreview,
   StarfallSwitchVariants,
 } from "@/components/studio/starfall-switch-showcase";
 import { componentRegistry, getComponentDoc } from "@/data/components";
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return componentRegistry.map((component) => ({ slug: component.slug }));
@@ -79,6 +85,13 @@ function resolveComponentShowcase(slug: string) {
     return {
       preview: <RecallDockInteractivePreview />,
       variants: <RecallDockVariants />,
+    };
+  }
+
+  if (slug === "snake-toast") {
+    return {
+      preview: <SnakeToastInteractivePreview />,
+      variants: <SnakeToastVariants />,
     };
   }
 

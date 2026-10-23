@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run sync:sources",
     "dev": "next dev",
+    "prebuild": "npm run sync:sources",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:sources": "node scripts/sync-component-sources.mjs"
   },
   "dependencies": {
     "next": "16.3.7",

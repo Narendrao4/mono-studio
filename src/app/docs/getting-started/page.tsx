@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ComponentGuideLinks } from "@/components/studio/component-guide-links";
+import { componentRegistry } from "@/data/components";
 
 export const metadata: Metadata = {
   title: "Getting Started",
@@ -37,6 +39,19 @@ npm run dev
 npm run lint
 npm run build`}
           </pre>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="studio-heading text-xl">Use a component in your application</h2>
+        <p className="text-sm leading-6 text-muted-foreground">Every component has its own documentation, guidelines, and application setup guide.</p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {componentRegistry.map((component) => (
+            <div key={component.slug} className="studio-card space-y-3 p-5">
+              <h3 className="text-sm font-medium">{component.name}</h3>
+              <ComponentGuideLinks slug={component.slug} name={component.name} compact />
+            </div>
+          ))}
         </div>
       </section>
     </article>

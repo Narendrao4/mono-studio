@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ComponentGuideLinks } from "@/components/studio/component-guide-links";
 
 import { componentRegistry } from "@/data/components";
 
@@ -45,8 +46,11 @@ export default function ComponentsPage() {
               href={`/components/${component.slug}`}
               className="mt-4 inline-flex h-9 items-center justify-center border border-border bg-card px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              Open Docs
+              Open Preview
             </Link>
+            <div className="mt-3">
+              <ComponentGuideLinks slug={component.slug} name={component.name} compact />
+            </div>
           </article>
         ))}
       </section>

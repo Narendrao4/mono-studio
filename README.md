@@ -10,9 +10,14 @@ The project is built to make component authoring and documentation repeatable:
 - Copy usage snippets quickly
 - Extend the studio with additional components over time
 
-The studio includes five documented components. Recall Dock adds a reusable
+The studio includes six documented components. Recall Dock adds a reusable
 receipt trail for reversible actions: each item can be undone or dismissed
 independently, and the host app owns the action history.
+
+Snake Toast appears at the bottom right with a slithering entrance, a moving
+border trace, and an exit within three seconds. Its white, black, red, and green
+palettes include a white background with black text by default. The component
+portals to the document body and respects reduced motion preferences.
 
 ## Design Direction
 
@@ -81,7 +86,8 @@ src/
 	data/
 		components.ts
 		*-code.ts
-		recall-dock-source.json
+		component-sources.json
+		component-setup.ts
 	lib/
 		utils.ts
 ~~~
@@ -93,7 +99,10 @@ src/
 3. Register metadata in src/data/components.ts.
 4. Add source/usage snippets in src/data and register them in components.ts.
 5. Ensure route /components/[slug] resolves the new showcase.
-6. Run npm run lint and npm run build.
+6. Include use cases, component-specific guidelines, and state guidance in the registry. The Documentation and How to use links appear on every card and preview page.
+7. Verify /docs/components/[slug] and /docs/components/[slug]/usage. Each usage page includes setup, complete source, required styles, and application code.
+8. Run npm run sync:sources after changing source. It also runs automatically before npm run dev and npm run build.
+9. Run npm run lint and npm run build.
 
 ## Deployment (Vercel)
 
