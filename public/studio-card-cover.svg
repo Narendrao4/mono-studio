@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" fill="none">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" stroke="#d4d4d4" stroke-width=".6"/></pattern>
+    <linearGradient id="paper" x1="330" y1="270" x2="860" y2="630" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#d8d8d8"/></linearGradient>
+  </defs>
+  <path fill="#ededeb" d="M0 0h1200v750H0z"/>
+  <path fill="url(#grid)" d="M0 0h1200v750H0z"/>
+  <path d="m306 483 326-226 293 106-326 226-293-106Z" fill="#ccc"/>
+  <path d="m306 451 326-226 293 106-326 226-293-106Z" fill="#171717"/>
+  <path d="M306 451v32l293 106v-32L306 451Z" fill="#aaa"/>
+  <path d="m599 557 326-226v32L599 589v-32Z" fill="#777"/>
+  <path d="m334 408 298-207 264 96-297 207-265-96Z" fill="url(#paper)" stroke="#aaa"/>
+  <path d="m334 408 265 96v22l-265-96v-22Z" fill="#fafafa" stroke="#aaa"/>
+  <path d="m599 504 297-207v22L599 526v-22Z" fill="#b5b5b5" stroke="#aaa"/>
+  <path d="m363 366 269-187 236 86-269 187-236-86Z" fill="#111"/>
+  <path d="m363 366 236 86v23l-236-86v-23Z" fill="#333"/>
+  <path d="m599 452 269-187v23L599 475v-23Z" fill="#0a0a0a"/>
+  <path d="m438 339 194-135 161 58-194 135-161-58Z" stroke="#fafafa" stroke-width="1.5"/>
+  <path d="m473 326 159-110 126 46-159 110-126-46Z" stroke="#fafafa" stroke-opacity=".45"/>
+  <path d="M130 135h44m-22-22v44M1026 615h44m-22-22v44" stroke="#555"/>
+  <path d="M220 600h160m440-450h160" stroke="#888" stroke-dasharray="3 7"/>
+  <text x="90" y="90" fill="#555" font-family="monospace" font-size="12" letter-spacing="3">MONO / FORM STUDY</text>
+  <text x="90" y="680" fill="#555" font-family="monospace" font-size="11" letter-spacing="2">SURFACE — 008</text>
+  <text x="1005" y="680" fill="#555" font-family="monospace" font-size="11" letter-spacing="2">16 : 10</text>
+</svg>

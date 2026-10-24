@@ -14,6 +14,7 @@ import {
 import { RECALL_DOCK_SOURCE, RECALL_DOCK_USAGE } from "@/data/recall-dock-code";
 import { SNAKE_TOAST_SOURCE, SNAKE_TOAST_USAGE } from "@/data/snake-toast-code";
 import { SNAKE_SPINNER_SOURCE, SNAKE_SPINNER_USAGE } from "@/data/snake-spinner-code";
+import { STUDIO_CARD_SOURCE, STUDIO_CARD_USAGE } from "@/data/studio-card-code";
 import componentSources from "@/data/component-sources.json";
 
 export type RegistryStatus = "ready" | "experimental";
@@ -35,6 +36,8 @@ export type ComponentPropDoc = {
 export type ComponentDoc = ComponentRegistryItem & {
   sourceFile: string;
   sourceCode: string;
+  styleFile?: string;
+  styleCode?: string;
   usageCode: string;
   props: ComponentPropDoc[];
   useCases: string[];
@@ -90,6 +93,13 @@ export const componentRegistry: ComponentRegistryItem[] = [
     name: "Snake Spinner",
     description:
       "One snake loading component for inline content, busy buttons, and a centered page overlay. Choose Orbit, Coil, or Chase and six color palettes.",
+    status: "ready",
+  },
+  {
+    slug: "studio-card",
+    name: "Studio Card",
+    description:
+      "Mono Studio's signature card: an indexed shoulder, a clipped corner, and an offset backing that reveals depth on hover and focus. Built for live previews, projects, and editorial content.",
     status: "ready",
   },
 ];
@@ -446,6 +456,39 @@ const componentDocs: Record<string, ComponentDoc> = {
       { name: "className", type: "string", defaultValue: "undefined", description: "Classes for the inline wrapper, button, or overlay card." },
     ],
   },
+  "studio-card": {
+    ...componentRegistry[7],
+    sourceFile: "studio-card.tsx",
+    styleFile: "studio-card.module.css",
+    sourceCode: STUDIO_CARD_SOURCE,
+    usageCode: STUDIO_CARD_USAGE,
+    useCases: ["Interactive component galleries", "Project and resource collections", "Image and editorial cards"],
+    guidelines: [
+      "Let the indexed shoulder and clipped corner provide the visual identity. Use short titles, restrained badges, and one clear primary action.",
+      "Pass a custom preview or an image, then use children for additional body content. The TypeScript API prevents competing preview and image props.",
+      "Keep links and buttons inside actions or footer. The article itself is a content container, so nested previews remain fully interactive without a competing card click handler.",
+      "Use headingLevel to fit the page outline: h2 for a library section, h3 for nested gallery items, or h4 for a deeper section.",
+      "Use the inverse surface for contrast. Both surfaces use Mono Studio's theme tokens and adapt to light and dark mode.",
+      "Copy the companion CSS Module beside the component. It includes the silhouette, backing layer, hover and focus behavior, and reduced motion rules.",
+      "For images, provide meaningful alt text and intrinsic dimensions. This implementation uses Next.js Image; keep images local or configure your app's allowed remote sources.",
+    ],
+    stateGuidance: "StudioCard owns presentation only and requires no client-side state. The host owns saved states, navigation, and preview interactions. Put native links and buttons in the supplied slots; use a client parent when those actions update React state.",
+    props: [
+      { name: "title", type: "string", defaultValue: "required", description: "Visible heading and accessible name for the article." },
+      { name: "description", type: "ReactNode", defaultValue: "undefined", description: "Supporting text beneath the title." },
+      { name: "eyebrow", type: "string", defaultValue: "undefined", description: "Small index or category label in the card header." },
+      { name: "preview", type: "ReactNode", defaultValue: "undefined", description: "Live component, custom artwork, or other media. Mutually exclusive with image." },
+      { name: "image", type: "{ src; alt: string; width: number; height: number }", defaultValue: "undefined", description: "Next.js Image source and intrinsic dimensions. Displayed in a 16:10 frame; mutually exclusive with preview." },
+      { name: "icon / badge", type: "ReactNode", defaultValue: "undefined", description: "Optional decorative icon and compact status or category badge." },
+      { name: "children", type: "ReactNode", defaultValue: "undefined", description: "Additional body content, such as project statistics or a longer note." },
+      { name: "actions", type: "ReactNode", defaultValue: "undefined", description: "Buttons or links below the content. Preserve native semantics and clear action labels." },
+      { name: "footer", type: "ReactNode", defaultValue: "undefined", description: "A separate lower area for metadata, documentation links, or secondary actions." },
+      { name: "variant", type: '"default" | "inverse"', defaultValue: '"default"', description: "Choose the theme's paper surface or its opposite for contrast." },
+      { name: "size", type: '"default" | "compact"', defaultValue: '"default"', description: "Adjust spacing, heading size, and preview height." },
+      { name: "headingLevel", type: "2 | 3 | 4", defaultValue: "3", description: "Semantic level of the title heading." },
+      { name: "id / className", type: "string", defaultValue: "undefined", description: "Optional anchor and layout classes on the article wrapper." },
+    ],
+  },
 };
 
 export function getComponentBySlug(slug: string) {
@@ -457,5 +500,6 @@ export function getComponentDoc(slug: string) {
   const doc = componentDocs[slug];
   if (!doc) return undefined;
   const sourceCode = componentSources[doc.sourceFile as keyof typeof componentSources];
-  return { ...doc, sourceCode: sourceCode ?? doc.sourceCode };
+  const styleCode = doc.styleFile ? componentSources[doc.styleFile as keyof typeof componentSources] : undefined;
+  return { ...doc, sourceCode: sourceCode ?? doc.sourceCode, styleCode };
 }

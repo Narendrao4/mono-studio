@@ -26,13 +26,14 @@ export function ComponentReferencePage({ doc, usage = false }: { doc: ComponentD
             <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
               Use a React and TypeScript application with Tailwind CSS 4. No additional UI library is required. In Mono Studio, the helper and styles below are already installed. In another app, add them once and keep the @/ import alias pointing to your source folder, or adjust the imports.
             </p>
+            {doc.slug === "studio-card" && <p className="max-w-3xl text-sm leading-6 text-muted-foreground">StudioCard uses Next.js Image and a companion CSS Module. In another React framework, replace next/image with your application&apos;s image renderer.</p>}
             <details className="studio-card">
               <summary className="cursor-pointer p-4 text-sm font-medium">Shared helper: src/lib/utils.ts</summary>
               <CodeViewer code={COMPONENT_UTILS} fileName="src/lib/utils.ts" />
             </details>
             <details className="studio-card">
               <summary className="cursor-pointer p-4 text-sm font-medium">Required styles: globals.css</summary>
-              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Merge these styles into your global stylesheet and import it from your application entry or root layout.{bundledAnimation ? " The snake animation and color palettes are included in the component itself." : " Keep the theme tokens, and add the animation rules included below."}</p>
+              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Merge these styles into your global stylesheet and import it from your application entry or root layout.{doc.styleFile ? " The card's shape and interactions are in the companion CSS Module in step 2." : bundledAnimation ? " The snake animation and color palettes are included in the component itself." : " Keep the theme tokens, and add the animation rules included below."}</p>
               <CodeViewer code={styles} fileName="globals.css" />
             </details>
           </section>
@@ -44,6 +45,11 @@ export function ComponentReferencePage({ doc, usage = false }: { doc: ComponentD
               <summary className="cursor-pointer p-4 text-sm font-medium">View and copy {doc.sourceFile}</summary>
               <CodeViewer code={doc.sourceCode} fileName={doc.sourceFile} />
             </details>
+            {doc.styleFile && doc.styleCode && <details className="studio-card">
+              <summary className="cursor-pointer p-4 text-sm font-medium">View and copy {doc.styleFile}</summary>
+              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Save this CSS Module beside {doc.sourceFile}. Its import is already included in the component.</p>
+              <CodeViewer code={doc.styleCode} fileName={doc.styleFile} />
+            </details>}
           </section>
 
           <section className="space-y-4">

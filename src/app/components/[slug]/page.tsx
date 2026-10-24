@@ -30,6 +30,10 @@ import {
   StarfallSwitchInteractivePreview,
   StarfallSwitchVariants,
 } from "@/components/studio/starfall-switch-showcase";
+import {
+  StudioCardInteractivePreview,
+  StudioCardVariants,
+} from "@/components/studio/studio-card-showcase";
 import { componentRegistry, getComponentDoc } from "@/data/components";
 
 export const dynamicParams = false;
@@ -103,6 +107,13 @@ function resolveComponentShowcase(slug: string) {
     return {
       preview: <SnakeSpinnerInteractivePreview />,
       variants: <SnakeSpinnerVariants />,
+    };
+  }
+
+  if (slug === "studio-card") {
+    return {
+      preview: <StudioCardInteractivePreview />,
+      variants: <StudioCardVariants />,
     };
   }
 

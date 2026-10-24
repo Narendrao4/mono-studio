@@ -1,7 +1,7 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 
 const directory = new URL("../src/components/ui/", import.meta.url);
-const files = (await readdir(directory)).filter((file) => file.endsWith(".tsx")).sort();
+const files = (await readdir(directory)).filter((file) => file.endsWith(".tsx") || file.endsWith(".module.css")).sort();
 const sources = Object.fromEntries(await Promise.all(files.map(async (file) => [
   file,
   await readFile(new URL(file, directory), "utf8"),
@@ -12,4 +12,4 @@ await writeFile(
   JSON.stringify(sources, null, 2) + "\n",
   "utf8",
 );
-console.log(`Synced ${files.length} component sources for documentation.`);
+console.log(`Synced ${files.length} documentation source files.`);

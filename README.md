@@ -10,7 +10,7 @@ The project is built to make component authoring and documentation repeatable:
 - Copy usage snippets quickly
 - Extend the studio with additional components over time
 
-The studio includes seven documented components. Recall Dock adds a reusable
+The studio includes eight documented components. Recall Dock adds a reusable
 receipt trail for reversible actions: each item can be undone or dismissed
 independently, and the host app owns the action history.
 
@@ -23,6 +23,12 @@ Snake Spinner provides Orbit, Coil, and Chase shapes for inline status, loading
 buttons, and a modal page overlay. It includes six colors plus inherited color,
 three sizes, loading labels, and reduced motion support. The overlay dims the
 page and blocks background interaction while the host application's work runs.
+
+StudioCard is the studio's signature content frame, with an indexed shoulder,
+clipped corner, and offset backing. The same implementation powers the home
+catalog, library cards, and its interactive showcase. It supports live previews,
+images, content, actions, badges, compact spacing, and inverse surfaces. Its
+companion CSS Module is included in the automatically synced documentation.
 
 ## Design Direction
 

@@ -6,6 +6,8 @@ import { PhaseWeaveToggle } from "@/components/ui/phase-weave-toggle";
 import { RecallDockCatalogPreview } from "@/components/studio/recall-dock-showcase";
 import { SnakeToastCatalogPreview } from "@/components/studio/snake-toast-showcase";
 import { SnakeSpinnerCatalogPreview } from "@/components/studio/snake-spinner-showcase";
+import { StudioCardCatalogPreview } from "@/components/studio/studio-card-showcase";
+import { StudioCard } from "@/components/ui/studio-card";
 import { SignalButton } from "@/components/ui/signal-button";
 import { StarfallSwitch } from "@/components/ui/starfall-switch";
 import { componentRegistry } from "@/data/components";
@@ -130,6 +132,10 @@ function ComponentCatalogPreview({ slug }: { slug: string }) {
 
   if (slug === "snake-spinner") {
     return <SnakeSpinnerCatalogPreview />;
+  }
+
+  if (slug === "studio-card") {
+    return <StudioCardCatalogPreview />;
   }
 
   return (
@@ -265,7 +271,7 @@ export default function Home() {
             Component Catalog
           </p>
           <h2 className="studio-heading text-3xl sm:text-4xl">
-            Same homepage pattern for every new component.
+            Every component, in its own frame.
           </h2>
           <p className="max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">
             Every card below renders the real component from the same registry
@@ -274,41 +280,17 @@ export default function Home() {
         </header>
 
         <div className="grid gap-4 md:grid-cols-2">
-          {componentRegistry.map((component) => (
-            <article
+          {componentRegistry.map((component, index) => (
+            <StudioCard
               key={component.slug}
-              className="studio-card group relative overflow-hidden p-5 transition-colors hover:bg-muted/50"
-            >
-              <div className="mb-4 overflow-hidden border border-border bg-muted p-4">
-                <div className="relative flex min-h-56 items-center justify-center p-4">
-                  <ComponentCatalogPreview slug={component.slug} />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="studio-heading text-2xl">
-                    {component.name}
-                  </h3>
-                  <span
-                    className="border border-border bg-muted px-2 py-1 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground"
-                  >
-                    {component.status}
-                  </span>
-                </div>
-
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {component.description}
-                </p>
-
-                <div className="flex flex-wrap items-center gap-2 pt-1">
-                  <Link href={`/components/${component.slug}`} className={solidButtonClassName}>
-                    Open Preview
-                  </Link>
-                </div>
-                <ComponentGuideLinks slug={component.slug} name={component.name} compact />
-              </div>
-            </article>
+              title={component.name}
+              description={component.description}
+              eyebrow={`Component / ${String(index + 1).padStart(2, "0")}`}
+              badge={component.status}
+              preview={<div className="flex min-h-56 w-full items-center justify-center"><ComponentCatalogPreview slug={component.slug} /></div>}
+              actions={<Link href={`/components/${component.slug}`} className={solidButtonClassName}>Open Preview</Link>}
+              footer={<ComponentGuideLinks slug={component.slug} name={component.name} compact />}
+            />
           ))}
         </div>
       </section>

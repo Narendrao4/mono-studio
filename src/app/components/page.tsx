@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ComponentGuideLinks } from "@/components/studio/component-guide-links";
+import { StudioCard } from "@/components/ui/studio-card";
 
 import { componentRegistry } from "@/data/components";
 
@@ -26,32 +27,23 @@ export default function ComponentsPage() {
       </header>
 
       <section className="grid gap-4">
-        {componentRegistry.map((component) => (
-          <article key={component.slug} className="studio-card p-5">
-            <div className="flex items-start justify-between gap-3">
-              <div className="space-y-2">
-                <h2 className="studio-heading text-xl">
-                  {component.name}
-                </h2>
-                <p className="text-sm leading-6 text-muted-foreground">
-                  {component.description}
-                </p>
-              </div>
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                {component.status}
-              </p>
-            </div>
-
-            <Link
+        {componentRegistry.map((component, index) => (
+          <StudioCard
+            key={component.slug}
+            title={component.name}
+            description={component.description}
+            eyebrow={`Component / ${String(index + 1).padStart(2, "0")}`}
+            badge={component.status}
+            headingLevel={2}
+            size="compact"
+            actions={<Link
               href={`/components/${component.slug}`}
-              className="mt-4 inline-flex h-9 items-center justify-center border border-border bg-card px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="inline-flex h-9 items-center justify-center border border-border bg-card px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Open Preview
-            </Link>
-            <div className="mt-3">
-              <ComponentGuideLinks slug={component.slug} name={component.name} compact />
-            </div>
-          </article>
+            </Link>}
+            footer={<ComponentGuideLinks slug={component.slug} name={component.name} compact />}
+          />
         ))}
       </section>
     </div>

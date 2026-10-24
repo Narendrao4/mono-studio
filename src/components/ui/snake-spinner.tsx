@@ -78,8 +78,9 @@ function snakeBody(variant: SnakeSpinnerVariant, headAngle = 0) {
     const angle = (headAngle - sweep * (1 - t)) * Math.PI / 180;
     const radius = variant === "coil" ? 11 + 18 * t : 29 + Math.sin(t * Math.PI * 5) * .65;
     const width = .2 + 3 * t;
-    outer.push(`${48 + Math.cos(angle) * (radius + width)},${48 + Math.sin(angle) * (radius + width)}`);
-    inner.unshift(`${48 + Math.cos(angle) * (radius - width)},${48 + Math.sin(angle) * (radius - width)}`);
+    // Keep SSR and browser geometry identical across floating-point runtimes.
+    outer.push(`${(48 + Math.cos(angle) * (radius + width)).toFixed(4)},${(48 + Math.sin(angle) * (radius + width)).toFixed(4)}`);
+    inner.unshift(`${(48 + Math.cos(angle) * (radius - width)).toFixed(4)},${(48 + Math.sin(angle) * (radius - width)).toFixed(4)}`);
   }
 
   return `M${outer.join(" L")} L${inner.join(" L")} Z`;

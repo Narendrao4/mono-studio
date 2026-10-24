@@ -17,4 +17,5 @@ For every component added to Mono Studio:
 - Provide the Documentation and How to use links at the end of its homepage card, library entry, and component preview page using ComponentGuideLinks.
 - Keep /docs/components/[slug] and /docs/components/[slug]/usage available for that component. The usage guide must cover setup, required styles, imports, and application code.
 - Run npm run sync:sources after source changes. The dev and build scripts also sync sources so the documentation shows the actual implementation.
+- For components with a companion CSS Module, set styleFile in the registry so the usage guide includes the complete stylesheet alongside the component source.
 - Verify lint, the production build, and behavior affected by the change before publishing. Keep this documentation workflow for future component requests.
