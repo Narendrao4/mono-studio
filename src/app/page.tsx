@@ -5,6 +5,7 @@ import { FractureStackSwitch } from "@/components/ui/fracture-stack-switch";
 import { PhaseWeaveToggle } from "@/components/ui/phase-weave-toggle";
 import { RecallDockCatalogPreview } from "@/components/studio/recall-dock-showcase";
 import { SnakeToastCatalogPreview } from "@/components/studio/snake-toast-showcase";
+import { SnakeSpinnerCatalogPreview } from "@/components/studio/snake-spinner-showcase";
 import { SignalButton } from "@/components/ui/signal-button";
 import { StarfallSwitch } from "@/components/ui/starfall-switch";
 import { componentRegistry } from "@/data/components";
@@ -125,6 +126,10 @@ function ComponentCatalogPreview({ slug }: { slug: string }) {
 
   if (slug === "snake-toast") {
     return <SnakeToastCatalogPreview />;
+  }
+
+  if (slug === "snake-spinner") {
+    return <SnakeSpinnerCatalogPreview />;
   }
 
   return (

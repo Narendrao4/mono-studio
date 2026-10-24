@@ -7,6 +7,7 @@ import { COMPONENT_ANIMATIONS, COMPONENT_THEME, COMPONENT_UTILS } from "@/data/c
 import type { ComponentDoc } from "@/data/components";
 
 export function ComponentReferencePage({ doc, usage = false }: { doc: ComponentDoc; usage?: boolean }) {
+  const bundledAnimation = doc.slug === "snake-toast" || doc.slug === "snake-spinner";
   const styles = doc.slug === "snake-toast" ? '@import "tailwindcss";\n' : COMPONENT_THEME + (COMPONENT_ANIMATIONS[doc.slug] ?? "");
 
   return (
@@ -31,7 +32,7 @@ export function ComponentReferencePage({ doc, usage = false }: { doc: ComponentD
             </details>
             <details className="studio-card">
               <summary className="cursor-pointer p-4 text-sm font-medium">Required styles: globals.css</summary>
-              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Merge these styles into your global stylesheet and import it from your application entry or root layout.{doc.slug === "snake-toast" ? " The snake animation and color palettes are included in the component itself." : " Keep the theme tokens, and add the animation rules included below."}</p>
+              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Merge these styles into your global stylesheet and import it from your application entry or root layout.{bundledAnimation ? " The snake animation and color palettes are included in the component itself." : " Keep the theme tokens, and add the animation rules included below."}</p>
               <CodeViewer code={styles} fileName="globals.css" />
             </details>
           </section>

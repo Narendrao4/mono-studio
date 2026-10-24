@@ -10,7 +10,7 @@ The project is built to make component authoring and documentation repeatable:
 - Copy usage snippets quickly
 - Extend the studio with additional components over time
 
-The studio includes six documented components. Recall Dock adds a reusable
+The studio includes seven documented components. Recall Dock adds a reusable
 receipt trail for reversible actions: each item can be undone or dismissed
 independently, and the host app owns the action history.
 
@@ -18,6 +18,11 @@ Snake Toast appears at the bottom right with a slithering entrance, a moving
 border trace, and an exit within three seconds. Its white, black, red, and green
 palettes include a white background with black text by default. The component
 portals to the document body and respects reduced motion preferences.
+
+Snake Spinner provides Orbit, Coil, and Chase shapes for inline status, loading
+buttons, and a modal page overlay. It includes six colors plus inherited color,
+three sizes, loading labels, and reduced motion support. The overlay dims the
+page and blocks background interaction while the host application's work runs.
 
 ## Design Direction
 

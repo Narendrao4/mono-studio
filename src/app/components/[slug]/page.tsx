@@ -23,6 +23,10 @@ import {
   SnakeToastVariants,
 } from "@/components/studio/snake-toast-showcase";
 import {
+  SnakeSpinnerInteractivePreview,
+  SnakeSpinnerVariants,
+} from "@/components/studio/snake-spinner-showcase";
+import {
   StarfallSwitchInteractivePreview,
   StarfallSwitchVariants,
 } from "@/components/studio/starfall-switch-showcase";
@@ -92,6 +96,13 @@ function resolveComponentShowcase(slug: string) {
     return {
       preview: <SnakeToastInteractivePreview />,
       variants: <SnakeToastVariants />,
+    };
+  }
+
+  if (slug === "snake-spinner") {
+    return {
+      preview: <SnakeSpinnerInteractivePreview />,
+      variants: <SnakeSpinnerVariants />,
     };
   }
 

@@ -13,6 +13,7 @@ import {
 } from "@/data/starfall-switch-code";
 import { RECALL_DOCK_SOURCE, RECALL_DOCK_USAGE } from "@/data/recall-dock-code";
 import { SNAKE_TOAST_SOURCE, SNAKE_TOAST_USAGE } from "@/data/snake-toast-code";
+import { SNAKE_SPINNER_SOURCE, SNAKE_SPINNER_USAGE } from "@/data/snake-spinner-code";
 import componentSources from "@/data/component-sources.json";
 
 export type RegistryStatus = "ready" | "experimental";
@@ -82,6 +83,13 @@ export const componentRegistry: ComponentRegistryItem[] = [
     name: "Snake Toast",
     description:
       "A toast that slithers into the bottom-right corner, traces its edge, and disappears after three seconds. Available in white, black, red, and green.",
+    status: "ready",
+  },
+  {
+    slug: "snake-spinner",
+    name: "Snake Spinner",
+    description:
+      "One snake loading component for inline content, busy buttons, and a centered page overlay. Choose Orbit, Coil, or Chase and six color palettes.",
     status: "ready",
   },
 ];
@@ -405,6 +413,37 @@ const componentDocs: Record<string, ComponentDoc> = {
         defaultValue: "undefined",
         description: "Additional classes on the floating wrapper.",
       },
+    ],
+  },
+  "snake-spinner": {
+    ...componentRegistry[6],
+    sourceFile: "snake-spinner.tsx",
+    sourceCode: SNAKE_SPINNER_SOURCE,
+    usageCode: SNAKE_SPINNER_USAGE,
+    useCases: ["Document upload overlays", "Save and submit buttons", "Inline content loading"],
+    guidelines: [
+      "Choose inline for a small loading area, button for one pending action, or overlay when the whole page must wait.",
+      "Use orbit for one circular snake, coil for a spiral, or chase for two snakes on the same ring. Each style uses the same rotating motion.",
+      "Use current to inherit the surrounding text color, or choose a named palette. Keep white spinners on dark backgrounds and black spinners on light backgrounds.",
+      "Provide a meaningful loading label. Button mode disables repeated clicks; the page overlay uses a native modal dialog to block background interactions and restore focus.",
+      "Show Cancel only when the application can stop the work. Abort the real request before setting loading to false; Escape also calls onCancel when provided.",
+      "Respect reduced motion preferences: the snake remains visible with its loading label while rotation stops.",
+    ],
+    stateGuidance: "Keep loading true for the lifetime of the actual request and clear it in finally on success or failure. The component has no automatic timeout. The showcase uses a four-second local simulation and does not upload selected files.",
+    props: [
+      { name: "mode", type: '"inline" | "button" | "overlay"', defaultValue: '"inline"', description: "Choose an inline status, a native loading button, or a modal page overlay." },
+      { name: "variant", type: '"orbit" | "coil" | "chase"', defaultValue: '"orbit"', description: "Select the snake shape. All three rotate clockwise." },
+      { name: "color", type: '"current" | "black" | "white" | "red" | "green" | "blue" | "violet"', defaultValue: '"current"', description: "Spinner color. Current inherits the surrounding text color." },
+      { name: "loading", type: "boolean", defaultValue: "inline/overlay: true; button: false", description: "Show or hide the loading state. A button remains visible when false." },
+      { name: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"; overlay: "lg"', description: "Controls glyph dimensions and button sizing." },
+      { name: "speed", type: "number", defaultValue: "1.2", description: "Seconds per complete rotation. Must be greater than zero." },
+      { name: "label", type: "string", defaultValue: '"Loading..."', description: "Accessible status text, the busy button label, or the overlay heading." },
+      { name: "showLabel", type: "boolean", defaultValue: "false", description: "Inline mode only: display the label beside the spinner. Otherwise it remains available to screen readers." },
+      { name: "children", type: "ReactNode", defaultValue: "required in button mode", description: "Button label shown when loading is false." },
+      { name: "onClick / disabled / type", type: "native button attributes", defaultValue: 'type: "button"', description: "Button mode accepts native button props. Loading always disables the button." },
+      { name: "description", type: "string", defaultValue: "undefined", description: "Overlay mode only: supporting text such as the name of the document being uploaded." },
+      { name: "onCancel", type: "() => void", defaultValue: "undefined", description: "Overlay mode only: adds Cancel and handles Escape. The parent must stop the work and clear loading." },
+      { name: "className", type: "string", defaultValue: "undefined", description: "Classes for the inline wrapper, button, or overlay card." },
     ],
   },
 };
