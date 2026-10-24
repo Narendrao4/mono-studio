@@ -67,8 +67,8 @@ export function StudioDataTableInteractivePreview() {
       <div className="flex flex-wrap items-start justify-between gap-5">
         <div className="max-w-sm">
           <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Mono / Signature 009</p>
-          <h3 className="studio-heading mt-2 text-2xl">Every detail, in its place.</h3>
-          <p className="mt-2 text-xs leading-6 text-muted-foreground">A numbered rail. A quiet rhythm. A selection that travels with you. A ledger made for the way you work.</p>
+          <h3 className="studio-heading mt-2 text-2xl">A folio, full of possibilities.</h3>
+          <p className="mt-2 text-xs leading-6 text-muted-foreground">Perforated edges. Inked headings. A record slip tucked beneath every row. Press + to take a closer look.</p>
         </div>
         <div className="flex flex-wrap gap-5">
           <fieldset><legend className="mb-2 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">Spacing</legend><div className="flex gap-1">{(["comfortable", "compact"] as const).map((value) => <button key={value} type="button" data-table-density={value} aria-pressed={density === value} onClick={() => setDensity(value)} className={cn(choiceClass, density === value ? "border-foreground bg-foreground text-background" : "border-border hover:border-foreground")}>{value === "comfortable" ? "Roomy" : "Compact"}</button>)}</div></fieldset>
@@ -87,6 +87,10 @@ export function StudioDataTableInteractivePreview() {
         density={density}
         isLoading={state === "loading"}
         renderSelectionActions={(rows) => <button type="button" onClick={() => { exportProjects(rows); setFeedback(`Exported ${rows.length} ${rows.length === 1 ? "project" : "projects"} to mono-studio-projects.csv.`); }}>Export rows ↓</button>}
+        renderRowDetails={(row) => <div className="grid gap-6 sm:grid-cols-[1.2fr_1fr]">
+          <div><p className="font-mono text-[9px] uppercase tracking-[0.14em] text-muted-foreground">{row.id} / Project file</p><h4 className="mt-2 text-xl font-medium tracking-[-0.04em]">{row.name}</h4><p className="mt-2 text-xs text-muted-foreground">{row.category}</p><button type="button" className="mt-4 border border-border bg-card px-3 py-2 text-[10px] hover:border-foreground focus-visible:outline-2 focus-visible:outline-offset-2" onClick={async () => { try { await navigator.clipboard.writeText(row.id); setFeedback(`Copied ${row.id} to your clipboard.`); } catch { setFeedback(`Project ID: ${row.id}. Clipboard access is unavailable; copy this ID manually.`); } }}>Copy project ID ↗</button></div>
+          <dl className="grid grid-cols-2 gap-4 border-l border-border pl-6"><div><dt className="font-mono text-[8px] uppercase tracking-[0.1em] text-muted-foreground">Steward</dt><dd className="mt-2 text-xs">{row.owner}</dd></div><div><dt className="font-mono text-[8px] uppercase tracking-[0.1em] text-muted-foreground">Stage</dt><dd className="mt-2"><Stage value={row.stage} /></dd></div><div><dt className="font-mono text-[8px] uppercase tracking-[0.1em] text-muted-foreground">Linked files</dt><dd className="mt-2 text-2xl tracking-[-0.05em]">{row.files}</dd></div><div><dt className="font-mono text-[8px] uppercase tracking-[0.1em] text-muted-foreground">Budget</dt><dd className="mt-2 text-2xl tracking-[-0.05em]">${row.budget.toLocaleString("en-US")}</dd></div></dl>
+        </div>}
       />
       <p role="status" className="text-xs leading-6 text-muted-foreground">{feedback}</p>
     </div>

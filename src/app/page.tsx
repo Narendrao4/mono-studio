@@ -8,6 +8,7 @@ import { SnakeToastCatalogPreview } from "@/components/studio/snake-toast-showca
 import { SnakeSpinnerCatalogPreview } from "@/components/studio/snake-spinner-showcase";
 import { StudioCardCatalogPreview } from "@/components/studio/studio-card-showcase";
 import { StudioDataTableCatalogPreview } from "@/components/studio/studio-data-table-showcase";
+import { FoldoutCatalogPreview } from "@/components/studio/foldout-showcase";
 import { StudioCard } from "@/components/ui/studio-card";
 import { SignalButton } from "@/components/ui/signal-button";
 import { StarfallSwitch } from "@/components/ui/starfall-switch";
@@ -141,6 +142,10 @@ function ComponentCatalogPreview({ slug }: { slug: string }) {
 
   if (slug === "studio-data-table") {
     return <StudioDataTableCatalogPreview />;
+  }
+
+  if (slug === "foldout") {
+    return <FoldoutCatalogPreview />;
   }
 
   return (

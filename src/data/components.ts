@@ -16,6 +16,7 @@ import { SNAKE_TOAST_SOURCE, SNAKE_TOAST_USAGE } from "@/data/snake-toast-code";
 import { SNAKE_SPINNER_SOURCE, SNAKE_SPINNER_USAGE } from "@/data/snake-spinner-code";
 import { STUDIO_CARD_SOURCE, STUDIO_CARD_USAGE } from "@/data/studio-card-code";
 import { STUDIO_DATA_TABLE_SOURCE, STUDIO_DATA_TABLE_USAGE } from "@/data/studio-data-table-code";
+import { FOLDOUT_SOURCE, FOLDOUT_USAGE } from "@/data/foldout-code";
 import componentSources from "@/data/component-sources.json";
 
 export type RegistryStatus = "ready" | "experimental";
@@ -107,7 +108,14 @@ export const componentRegistry: ComponentRegistryItem[] = [
     slug: "studio-data-table",
     name: "Studio Data Table",
     description:
-      "A signature ledger with a numbered ruler rail, a traveling selection, and a sheet progress track. Search, sort, select, and page through your data in one considered monochrome surface.",
+      "A perforated data folio with an inked column band, layered paper edges, and expandable record slips. Search, sort, select, and inspect the details tucked beneath every row.",
+    status: "ready",
+  },
+  {
+    slug: "foldout",
+    name: "Foldout",
+    description:
+      "An accordion of indexed sheets with folded corners, an inked open state, and a smooth unfolding motion. A considered home for FAQs, settings, and the details worth revealing.",
     status: "ready",
   },
 ];
@@ -512,6 +520,7 @@ const componentDocs: Record<string, ComponentDoc> = {
       "Filtering, sorting, and pagination operate on the complete data array in the browser. Use this for bounded datasets; it does not implement server pagination or virtualization.",
       "Sort headings cycle ascending, descending, and original order. Null and undefined values remain last, and equal values retain their input order.",
       "The table scrolls within its own region on narrow screens. Keep important identifying content in the first column, use short headings, and preserve visible focus styles.",
+      "Use renderRowDetails to tuck supporting information or real controls into a record slip. One slip opens at a time. Keep identifying information in the main row so the table stays useful when details are closed.",
       "Use isLoading while fetching, and an honest emptyMessage when there are no records. The loading state disables table controls without erasing selection.",
       "Provide an onSelectionChange handler when using controlled selectedIds. Selection actions must handle their own requests, confirmation, and feedback.",
     ],
@@ -528,9 +537,40 @@ const componentDocs: Record<string, ComponentDoc> = {
       { name: "selectedIds", type: "readonly string[]", defaultValue: "undefined", description: "Controlled row IDs. Omit for internal selection state." },
       { name: "onSelectionChange", type: "(ids: string[]) => void", defaultValue: "undefined", description: "Receives the next selection across all pages after each selection action." },
       { name: "renderSelectionActions", type: "(rows: readonly T[]) => ReactNode", defaultValue: "undefined", description: "Render real bulk actions inside the selection bar. Receives all selected records, including records hidden by search or pagination." },
+      { name: "renderRowDetails", type: "(row: T) => ReactNode", defaultValue: "undefined", description: "Adds an Inspect button and an expandable record slip beneath each row. One row can be open at a time; details unmount when closed, while the row ID remains remembered across sheets." },
       { name: "isLoading", type: "boolean", defaultValue: "false", description: "Shows a loading placeholder, announces progress, and disables table controls." },
       { name: "emptyMessage", type: "string", defaultValue: '"No records yet. Add your first record to get started."', description: "Guidance when data is empty. Search with no results has a separate reset action." },
       { name: "className", type: "string", defaultValue: "undefined", description: "Optional layout classes for the section." },
+    ],
+  },
+  "foldout": {
+    ...componentRegistry[9],
+    sourceFile: "foldout.tsx",
+    styleFile: "foldout.module.css",
+    sourceCode: FOLDOUT_SOURCE,
+    usageCode: FOLDOUT_USAGE,
+    useCases: ["FAQs and help sections", "Grouped settings and preferences", "Project details and onboarding notes"],
+    guidelines: [
+      "Give each sheet a stable unique ID and a short, meaningful title. Use descriptions and badges sparingly so headings remain easy to scan.",
+      "Use single when readers should focus on one topic, or multiple when they need to compare sections. Sheets can always be closed.",
+      "Set headingLevel to fit your document outline. Triggers are native buttons with aria-expanded and aria-controls; Arrow Up/Down, Home, and End move focus without opening a sheet.",
+      "Closed content stays mounted to preserve local form state, but is inert and hidden from assistive technology. Fetch expensive content separately when needed.",
+      "Pass value with onValueChange for controlled state, or defaultValue for internal state. Single mode uses only the first valid ID; unknown IDs and duplicates are ignored.",
+      "Disabled items cannot be toggled and are skipped by keyboard navigation. An explicitly supplied open disabled sheet stays readable.",
+      "Paper and inverse surfaces follow the app theme. The companion CSS Module includes the folding transitions, focus styles, and reduced motion behavior.",
+      "Keep essential errors and primary actions visible outside collapsed sections. The host owns form submission, persistence, and any async feedback.",
+    ],
+    stateGuidance: "Foldout controls which sheets are open. Own that array with value/onValueChange, or set defaultValue once. The content is mounted even when closed, so its form state survives toggling. Changing type from multiple to single shows only the first valid open ID; update your controlled array as well if the rest of your application uses it. When switching datasets, keep IDs stable or remount with a new key. The live example stores preference state in its parent and demonstrates both opening modes.",
+    props: [
+      { name: "items", type: "readonly FoldoutItem[]", defaultValue: "required", description: "Sheets with unique id, title, content, and optional description, badge, and disabled state." },
+      { name: "label", type: "string", defaultValue: '"Details"', description: "Visible index header and accessible name for the group." },
+      { name: "type", type: '"single" | "multiple"', defaultValue: '"single"', description: "Allow one open sheet or independently open sheets." },
+      { name: "value / defaultValue", type: "readonly string[]", defaultValue: "undefined / []", description: "Controlled open IDs, or the initial IDs for internal state." },
+      { name: "onValueChange", type: "(ids: string[]) => void", defaultValue: "undefined", description: "Receives the next open IDs when a heading is activated. Required for changes in controlled mode." },
+      { name: "variant", type: '"paper" | "inverse"', defaultValue: '"paper"', description: "A paper surface or its monochrome inverse. Both adapt to light and dark themes." },
+      { name: "size", type: '"default" | "compact"', defaultValue: '"default"', description: "Adjusts sheet spacing, heading size, and content padding." },
+      { name: "headingLevel", type: "2 | 3 | 4", defaultValue: "3", description: "Semantic heading level for each trigger." },
+      { name: "className", type: "string", defaultValue: "undefined", description: "Optional layout classes on the group." },
     ],
   },
 };

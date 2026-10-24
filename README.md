@@ -10,7 +10,7 @@ The project is built to make component authoring and documentation repeatable:
 - Copy usage snippets quickly
 - Extend the studio with additional components over time
 
-The studio includes nine documented components. Recall Dock adds a reusable
+The studio includes ten documented components. Recall Dock adds a reusable
 receipt trail for reversible actions: each item can be undone or dismissed
 independently, and the host app owns the action history.
 
@@ -30,12 +30,21 @@ catalog, library cards, and its interactive showcase. It supports live previews,
 images, content, actions, badges, compact spacing, and inverse surfaces. Its
 companion CSS Module is included in the automatically synced documentation.
 
-StudioDataTable brings a numbered ledger rail, a selection bar that works across
-pages, and a sheet progress track to real tabular data. Typed columns separate
+StudioDataTable is a perforated data folio, with an inked column band, layered
+paper edges, and expandable record slips for custom details and controls. Its
+numbered rail, selection across pages, and sheet progress track frame real data.
+Typed columns separate
 raw search/sort values from custom cells. It includes numeric and text sorting,
 search, page selection, pagination, compact spacing, and loading/empty states.
 The showcase includes a real CSV export and controlled selection. Full source,
 styles, props, and application examples are included in its component guides.
+
+Foldout reveals content as indexed sheets with folded corners and an inked open
+state. It supports single or multiple open sheets, controlled or internal state,
+paper and inverse surfaces, compact spacing, keyboard navigation, and reduced
+motion. Closed panels stay mounted to preserve form state, while remaining
+inert and hidden from assistive technology. Its live example includes working
+preferences; complete source, styles, and usage are available in its guides.
 
 ## Design Direction
 

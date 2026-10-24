@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 import styles from "./studio-data-table.module.css";
@@ -36,6 +36,7 @@ export type StudioDataTableProps<T> = {
   selectedIds?: readonly string[];
   onSelectionChange?: (ids: string[]) => void;
   renderSelectionActions?: (rows: readonly T[]) => ReactNode;
+  renderRowDetails?: (row: T) => ReactNode;
   isLoading?: boolean;
   emptyMessage?: string;
   className?: string;
@@ -86,6 +87,7 @@ export function StudioDataTable<T>({
   selectedIds,
   onSelectionChange,
   renderSelectionActions,
+  renderRowDetails,
   isLoading = false,
   emptyMessage = "No records yet. Add your first record to get started.",
   className,
@@ -97,6 +99,7 @@ export function StudioDataTable<T>({
   const [pageSize, setPageSize] = useState(validPageSize(initialPageSize) ? initialPageSize : 5);
   const [internalSelection, setInternalSelection] = useState<string[]>([]);
   const [hasOverflow, setHasOverflow] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -141,7 +144,7 @@ export function StudioDataTable<T>({
   const selectedOnPage = visibleRows.filter((row) => selectedSet.has(getRowId(row))).length;
   const allOnPageSelected = visibleRows.length > 0 && selectedOnPage === visibleRows.length;
   const sizes = [...new Set([...pageSizeOptions.filter(validPageSize), pageSize])].sort((a, b) => a - b);
-  const columnCount = columns.length + 1 + (selectable ? 1 : 0);
+  const columnCount = columns.length + 1 + (selectable ? 1 : 0) + (renderRowDetails ? 1 : 0);
   const hasSelection = selectedRows.length > 0;
 
   function updateSelection(ids: string[]) {
@@ -175,6 +178,7 @@ export function StudioDataTable<T>({
   return (
     <section className={cn(styles.root, className)} data-studio-table="" data-density={density} aria-labelledby={`${instanceId}-title`}>
       <header className={styles.header}>
+        <span className={styles.folioTab} aria-hidden="true">Sheet / {indexLabel(currentPage + 1)}</span>
         <div className={styles.identity}>
           <p className={styles.eyebrow}><span className={styles.registerMark} aria-hidden="true" />{eyebrow}</p>
           <h3 id={`${instanceId}-title`} className={styles.title}>{title}</h3>
@@ -210,20 +214,27 @@ export function StudioDataTable<T>({
                 {column.sortable === false ? column.header : <button type="button" className={styles.sortButton} disabled={isLoading} onClick={() => toggleSort(column.id)} aria-label={`${column.header}: ${!direction ? "sort ascending" : direction === "asc" ? "sort descending" : "clear sorting"}`} data-sorted={!!direction}>{column.header}<SortMark direction={direction} /></button>}
               </th>;
             })}
+            {renderRowDetails && <th scope="col" className={styles.inspectCell}><span className={styles.srOnly}>Record details</span><span aria-hidden="true">↙</span></th>}
           </tr></thead>
           <tbody>
             {isLoading ? <tr><td colSpan={columnCount} className={styles.empty}><span className={styles.loadingMarks} aria-hidden="true"><i /><i /><i /></span><strong>Loading records</strong><span>Your ledger will appear here when it is ready.</span></td></tr>
               : visibleRows.length === 0 ? <tr><td colSpan={columnCount} className={styles.empty}><span className={styles.emptySymbol} aria-hidden="true">[ — ]</span><strong>{searchTerm ? "No matching records" : "A clean sheet"}</strong><span>{searchTerm ? "Try another name, status, or value." : emptyMessage}</span>{searchTerm && <button type="button" className={styles.emptyReset} onClick={clearSearch}>Clear search</button>}</td></tr>
                 : visibleRows.map((row, rowIndex) => {
                   const id = getRowId(row);
-                  return <tr key={id} data-selected={selectable && selectedSet.has(id)}>
+                  const expanded = expandedId === id;
+                  const detailId = `${instanceId}-detail-${encodeURIComponent(id)}`;
+                  return <Fragment key={id}><tr data-selected={selectable && selectedSet.has(id)} data-expanded={expanded}>
                     <td className={styles.indexCell}>{indexLabel(start + rowIndex + 1)}</td>
                     {selectable && <td className={styles.checkCell}><SelectionCheckbox label={`Select ${getRowLabel(row)}`} checked={selectedSet.has(id)} onChange={() => toggleRow(id)} /></td>}
                     {columns.map((column, columnIndex) => {
                       const Cell = columnIndex === 0 ? "th" : "td";
                       return <Cell key={column.id} scope={columnIndex === 0 ? "row" : undefined} data-align={column.align} data-sorted={sortColumn?.id === column.id}>{column.cell ? column.cell(row) : column.accessor(row) ?? <span className={styles.missing}>—</span>}</Cell>;
                     })}
-                  </tr>;
+                    {renderRowDetails && <td className={styles.inspectCell}><button type="button" className={styles.inspectButton} aria-expanded={expanded} aria-controls={detailId} aria-label={expanded ? `Close details for ${getRowLabel(row)}` : `Inspect ${getRowLabel(row)}`} onClick={() => setExpandedId(expanded ? null : id)}><span aria-hidden="true">+</span></button></td>}
+                  </tr>{renderRowDetails && <tr data-detail-row="" hidden={!expanded}><td colSpan={columnCount} className={styles.detailCell}><div id={detailId} className={styles.detailSheet} role="region" aria-label={`Details for ${getRowLabel(row)}`}>
+                    <div className={styles.detailIndex} aria-hidden="true"><span>Record slip</span><b>{indexLabel(start + rowIndex + 1)}</b><span>↳</span></div>
+                    <div className={styles.detailContent}>{expanded && renderRowDetails(row)}</div>
+                  </div></td></tr>}</Fragment>;
                 })}
           </tbody>
         </table>

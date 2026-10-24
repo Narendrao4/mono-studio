@@ -35,6 +35,7 @@ import {
   StudioCardVariants,
 } from "@/components/studio/studio-card-showcase";
 import { componentRegistry, getComponentDoc } from "@/data/components";
+import { FoldoutInteractivePreview, FoldoutVariants } from "@/components/studio/foldout-showcase";
 import {
   StudioDataTableInteractivePreview,
   StudioDataTableVariants,
@@ -65,6 +66,10 @@ export async function generateMetadata({
 }
 
 function resolveComponentShowcase(slug: string) {
+  if (slug === "foldout") {
+    return { preview: <FoldoutInteractivePreview />, variants: <FoldoutVariants /> };
+  }
+
   if (slug === "studio-data-table") {
     return {
       preview: <StudioDataTableInteractivePreview />,

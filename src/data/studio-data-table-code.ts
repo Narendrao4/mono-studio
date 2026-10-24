@@ -52,6 +52,13 @@ export function InvoiceLedger() {
       pageSizeOptions={[5, 10, 20]}
       selectedIds={selectedIds}
       onSelectionChange={setSelectedIds}
+      renderRowDetails={(row) => (
+        <div>
+          <p>Invoice {row.id}</p>
+          <p>{row.client} — {row.status}</p>
+          <p>Amount: {"$" + row.amount.toLocaleString("en-US")}</p>
+        </div>
+      )}
     />
   );
 }
