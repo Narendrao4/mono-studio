@@ -33,7 +33,7 @@ export function ComponentReferencePage({ doc, usage = false }: { doc: ComponentD
             </details>
             <details className="studio-card">
               <summary className="cursor-pointer p-4 text-sm font-medium">Required styles: globals.css</summary>
-              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Merge these styles into your global stylesheet and import it from your application entry or root layout.{doc.styleFile ? " The card's shape and interactions are in the companion CSS Module in step 2." : bundledAnimation ? " The snake animation and color palettes are included in the component itself." : " Keep the theme tokens, and add the animation rules included below."}</p>
+              <p className="px-4 pb-4 text-sm leading-6 text-muted-foreground">Merge these styles into your global stylesheet and import it from your application entry or root layout.{doc.styleFile ? " The component's layout and interactions are in the companion CSS Module in step 2." : bundledAnimation ? " The snake animation and color palettes are included in the component itself." : " Keep the theme tokens, and add the animation rules included below."}</p>
               <CodeViewer code={styles} fileName="globals.css" />
             </details>
           </section>

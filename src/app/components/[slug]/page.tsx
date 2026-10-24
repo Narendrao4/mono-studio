@@ -35,6 +35,10 @@ import {
   StudioCardVariants,
 } from "@/components/studio/studio-card-showcase";
 import { componentRegistry, getComponentDoc } from "@/data/components";
+import {
+  StudioDataTableInteractivePreview,
+  StudioDataTableVariants,
+} from "@/components/studio/studio-data-table-showcase";
 
 export const dynamicParams = false;
 
@@ -61,6 +65,13 @@ export async function generateMetadata({
 }
 
 function resolveComponentShowcase(slug: string) {
+  if (slug === "studio-data-table") {
+    return {
+      preview: <StudioDataTableInteractivePreview />,
+      variants: <StudioDataTableVariants />,
+    };
+  }
+
   if (slug === "signal-button") {
     return {
       preview: <SignalButtonInteractivePreview />,

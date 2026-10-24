@@ -15,6 +15,7 @@ import { RECALL_DOCK_SOURCE, RECALL_DOCK_USAGE } from "@/data/recall-dock-code";
 import { SNAKE_TOAST_SOURCE, SNAKE_TOAST_USAGE } from "@/data/snake-toast-code";
 import { SNAKE_SPINNER_SOURCE, SNAKE_SPINNER_USAGE } from "@/data/snake-spinner-code";
 import { STUDIO_CARD_SOURCE, STUDIO_CARD_USAGE } from "@/data/studio-card-code";
+import { STUDIO_DATA_TABLE_SOURCE, STUDIO_DATA_TABLE_USAGE } from "@/data/studio-data-table-code";
 import componentSources from "@/data/component-sources.json";
 
 export type RegistryStatus = "ready" | "experimental";
@@ -100,6 +101,13 @@ export const componentRegistry: ComponentRegistryItem[] = [
     name: "Studio Card",
     description:
       "Mono Studio's signature card: an indexed shoulder, a clipped corner, and an offset backing that reveals depth on hover and focus. Built for live previews, projects, and editorial content.",
+    status: "ready",
+  },
+  {
+    slug: "studio-data-table",
+    name: "Studio Data Table",
+    description:
+      "A signature ledger with a numbered ruler rail, a traveling selection, and a sheet progress track. Search, sort, select, and page through your data in one considered monochrome surface.",
     status: "ready",
   },
 ];
@@ -487,6 +495,42 @@ const componentDocs: Record<string, ComponentDoc> = {
       { name: "size", type: '"default" | "compact"', defaultValue: '"default"', description: "Adjust spacing, heading size, and preview height." },
       { name: "headingLevel", type: "2 | 3 | 4", defaultValue: "3", description: "Semantic level of the title heading." },
       { name: "id / className", type: "string", defaultValue: "undefined", description: "Optional anchor and layout classes on the article wrapper." },
+    ],
+  },
+  "studio-data-table": {
+    ...componentRegistry[8],
+    sourceFile: "studio-data-table.tsx",
+    sourceCode: STUDIO_DATA_TABLE_SOURCE,
+    styleFile: "studio-data-table.module.css",
+    usageCode: STUDIO_DATA_TABLE_USAGE,
+    useCases: ["Project and resource directories", "Invoice and order ledgers", "Review queues and small admin datasets"],
+    guidelines: [
+      "Provide stable, unique getRowId values and unique column IDs. Never use a row's current position as its identity.",
+      "Use accessor for plain searchable and sortable values; use cell for formatted amounts, badges, links, or other custom content. Keep numeric values numeric.",
+      "The first data column is the row header. Put a meaningful name there, and supply getRowLabel for descriptive checkbox labels.",
+      "Selection persists across pages, searches, and sorts. The header checkbox selects only the current page; Clear selection clears all pages. Explain the scope of your bulk actions.",
+      "Filtering, sorting, and pagination operate on the complete data array in the browser. Use this for bounded datasets; it does not implement server pagination or virtualization.",
+      "Sort headings cycle ascending, descending, and original order. Null and undefined values remain last, and equal values retain their input order.",
+      "The table scrolls within its own region on narrow screens. Keep important identifying content in the first column, use short headings, and preserve visible focus styles.",
+      "Use isLoading while fetching, and an honest emptyMessage when there are no records. The loading state disables table controls without erasing selection.",
+      "Provide an onSelectionChange handler when using controlled selectedIds. Selection actions must handle their own requests, confirmation, and feedback.",
+    ],
+    stateGuidance: "The table owns search, sort, page, page size, and uncontrolled selection. Pass selectedIds with onSelectionChange to own selection in your application. Live selection is restricted to IDs present in data, and the visible page is clamped when data shrinks. Changing initialSort or initialPageSize after mount does not reset state; remount with a new key when switching datasets. Set isLoading during real requests and pass the full resulting dataset when it resolves.",
+    props: [
+      { name: "title / description / eyebrow", type: "string", defaultValue: 'title required; eyebrow: "Mono / Ledger"', description: "Accessible section title, supporting text, and small index label." },
+      { name: "data", type: "readonly T[]", defaultValue: "required", description: "Complete, bounded client-side dataset. An empty array shows the empty state." },
+      { name: "columns", type: "readonly StudioTableColumn<T>[]", defaultValue: "required", description: "Unique id, header, and accessor per column. Optional cell renderer, sortable/searchable flags (both default true), and align: start or end." },
+      { name: "getRowId / getRowLabel", type: "(row: T) => string", defaultValue: "getRowId required; label uses ID", description: "Stable unique identity and optional human-readable selection label." },
+      { name: "initialSort", type: '{ columnId: string; direction: "asc" | "desc" }', defaultValue: "undefined", description: "Initial sort for a sortable column; otherwise input order is preserved." },
+      { name: "initialPageSize / pageSizeOptions", type: "number / readonly number[]", defaultValue: "5 / [5, 10, 20]", description: "Initial rows per sheet and available sizes. Only positive safe integers are accepted; the active size is always included." },
+      { name: "density", type: '"comfortable" | "compact"', defaultValue: '"comfortable"', description: "Adjust header and row spacing without changing behavior." },
+      { name: "searchable / selectable", type: "boolean", defaultValue: "true / true", description: "Show global search and multi-row selection. Disable both for a compact reading view." },
+      { name: "selectedIds", type: "readonly string[]", defaultValue: "undefined", description: "Controlled row IDs. Omit for internal selection state." },
+      { name: "onSelectionChange", type: "(ids: string[]) => void", defaultValue: "undefined", description: "Receives the next selection across all pages after each selection action." },
+      { name: "renderSelectionActions", type: "(rows: readonly T[]) => ReactNode", defaultValue: "undefined", description: "Render real bulk actions inside the selection bar. Receives all selected records, including records hidden by search or pagination." },
+      { name: "isLoading", type: "boolean", defaultValue: "false", description: "Shows a loading placeholder, announces progress, and disables table controls." },
+      { name: "emptyMessage", type: "string", defaultValue: '"No records yet. Add your first record to get started."', description: "Guidance when data is empty. Search with no results has a separate reset action." },
+      { name: "className", type: "string", defaultValue: "undefined", description: "Optional layout classes for the section." },
     ],
   },
 };

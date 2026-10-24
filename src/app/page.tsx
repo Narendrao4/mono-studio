@@ -7,6 +7,7 @@ import { RecallDockCatalogPreview } from "@/components/studio/recall-dock-showca
 import { SnakeToastCatalogPreview } from "@/components/studio/snake-toast-showcase";
 import { SnakeSpinnerCatalogPreview } from "@/components/studio/snake-spinner-showcase";
 import { StudioCardCatalogPreview } from "@/components/studio/studio-card-showcase";
+import { StudioDataTableCatalogPreview } from "@/components/studio/studio-data-table-showcase";
 import { StudioCard } from "@/components/ui/studio-card";
 import { SignalButton } from "@/components/ui/signal-button";
 import { StarfallSwitch } from "@/components/ui/starfall-switch";
@@ -136,6 +137,10 @@ function ComponentCatalogPreview({ slug }: { slug: string }) {
 
   if (slug === "studio-card") {
     return <StudioCardCatalogPreview />;
+  }
+
+  if (slug === "studio-data-table") {
+    return <StudioDataTableCatalogPreview />;
   }
 
   return (
